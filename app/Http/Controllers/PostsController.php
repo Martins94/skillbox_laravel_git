@@ -31,7 +31,7 @@ class PostsController extends Controller
 
     public function store()
     {
-        $data = $this->validate(\request(), [
+         $data = request()->validate([
             'slug' => 'required|unique:posts|regex:/^[a-zA-Z0-9-_]+$/',
             'post_title' => 'required|min:5|max:100',
             'short_descr' => 'required|max:255',
@@ -43,4 +43,6 @@ class PostsController extends Controller
 
         return redirect('/');
     }
+
+
 }

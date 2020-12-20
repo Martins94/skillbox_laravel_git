@@ -3,5 +3,6 @@
     <p class="blog-post-meta">{{ $post->created_at->format('d.m.Y H:i:s') }}</p>
 
     <p>{{ $post->short_descr }}</p>
+    <p>{{ $post->published ? 'Опубликовано' : 'Не опубликовано'}}</p>
     <hr>
 </div>

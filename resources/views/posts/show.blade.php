@@ -9,7 +9,9 @@
         <p class="blog-post-meta">{{ $post->created_at->format('d.m.Y H:i:s') }}</p>
 
         <p>{{ $post->description }}</p>
+        <p>{{ $post->published ? 'Опубликовано' : 'Не опубликовано'}}</p>
         <hr>
         <a href="{{ route('main') }}">Ко всем статьям</a>
+        
     </div><!-- /.blog-main -->
 @endsection
