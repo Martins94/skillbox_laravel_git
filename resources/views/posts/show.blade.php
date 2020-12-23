@@ -11,7 +11,7 @@
         <p>{{ $post->description }}</p>
         <p>{{ $post->published ? 'Опубликовано' : 'Не опубликовано'}}</p>
         <hr>
-        <a href="{{ route('main') }}">Ко всем статьям</a>
-        <a href="/posts/{{ $post->slug }}">Редактировать</a>
+        <a href="{{ route('posts.index') }}">Ко всем статьям</a>
+        <a href="/posts/{{ $post->slug }}/edit">Редактировать</a>
     </div><!-- /.blog-main -->
 @endsection

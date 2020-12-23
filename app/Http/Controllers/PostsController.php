@@ -3,10 +3,12 @@
 namespace App\Http\Controllers;
 
 use App\Models\Post;
-use Illuminate\Http\Request;
+use App\Http\Requests\FormValidateRequest;
+use Illuminate\Validation\Rule;
 
 class PostsController extends Controller
 {
+
     public function index()
     {
         $posts = Post::latest()->get();
@@ -14,61 +16,46 @@ class PostsController extends Controller
         return view('welcome', compact('posts'));
     }
 
-    public function about()
-    {
-        return view('about');
-    }
-
-    public function show(Post $post)
-    {
-        return view('posts.show', compact('post'));
-    }
 
     public function create()
     {
         return view('posts.create');
     }
 
-    public function store()
+    public function store(FormValidateRequest $request)
     {
-         $data = request()->validate([
-            'slug' => 'required|unique:posts|regex:/^[a-zA-Z0-9-_]+$/',
-            'post_title' => 'required|min:5|max:100',
-            'short_descr' => 'required|max:255',
-            'description' => 'required',
-            'published' => ''
-        ]);
+        $data = $request->validated();
 
         Post::create($data);
 
-        return redirect('/');
+        return redirect(route('posts.index'));
     }
+
+
+    public function show(Post $post)
+    {
+        return view('posts.show', compact('post'));
+    }
+
 
     public function edit(Post $post)
     {
         return view('posts.edit', compact('post'));
     }
 
-    public function update(Post $post)
+
+    public function update(Post $post, FormValidateRequest $request)
     {
-        $data = $this->validate(\request(), [
-            'slug' => 'required|regex:/^[a-zA-Z0-9-_]+$/',
-            'post_title' => 'required|min:5|max:100',
-            'short_descr' => 'required|max:255',
-            'description' => 'required',
-            'published' => ''
-        ]);
-
-//        $data = array_merge($data, ['published' => \request()->has('published')]);
-
+        $data = $request->validated();
+        isset($data['published'])?: $data['published'] = '0';
         $post->update($data);
 
-        return redirect('/');
+        return redirect(route('posts.index'));
     }
 
     public function destroy(Post $post)
     {
         $post->delete();
-        return redirect('/');
+        return redirect(route('posts.index'));
     }
 }

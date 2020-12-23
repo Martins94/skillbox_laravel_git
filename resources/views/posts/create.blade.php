@@ -10,27 +10,12 @@
 
         @include('layout.errors')
 
-        <form method="post" action="{{ route('posts') }}">
+        <form method="post" action="{{ route('posts.store') }}">
             @csrf
-            <div class="mb-3">
-                <label for="slug" class="form-label">Slug</label>
-                <input type="text" class="form-control" id="slug" name="slug" value="{{ old('slug') }}">
-            </div>
-            <div class="mb-3">
-                <label for="post_title" class="form-label">Заголовок статьи</label>
-                <input type="text" class="form-control" id="post_title" name="post_title" value="{{ old('post_title') }}">
-            </div>
-            <div class="mb-3">
-                <label for="short_descr" class="form-label">Краткое описание статьи</label>
-                <input type="text" class="form-control" id="short_descr" name="short_descr" value="{{ old('short_descr') }}">
-            </div>
-            <div class="mb-3">
-                <label for="description" class="form-label">Полное описание статьи</label>
-                <textarea id="description" name="description" class="form-control" rows="4" cols="50">{{ old('description') }}</textarea>
-            </div>
+            @include('posts.postForm')
             <div class="mb-3 form-check">
-                <input type="checkbox" class="form-check-input" id="published" name="published">
-                <label class="form-check-label" for="published">Опубликовано</label>
+                <input type="checkbox" class="form-check-input" id="published" name="published" value="1">
+                <label class="form-check-label" for="published" >Опубликовано</label>
             </div>
             <button type="submit" class="btn btn-primary" >Отправить статью</button>
         </form>

@@ -13,25 +13,10 @@
         <form method="post" action="/posts/{{ $post->slug }}">
             @csrf
             @method('PATCH')
-            <div class="mb-3">
-                <label for="slug" class="form-label">Slug</label>
-                <input type="text" class="form-control" id="slug" name="slug" value="{{ $post->slug }}">
-            </div>
-            <div class="mb-3">
-                <label for="post_title" class="form-label">Заголовок статьи</label>
-                <input type="text" class="form-control" id="post_title" name="post_title" value="{{ $post->post_title }}">
-            </div>
-            <div class="mb-3">
-                <label for="short_descr" class="form-label">Краткое описание статьи</label>
-                <input type="text" class="form-control" id="short_descr" name="short_descr" value="{{ $post->short_descr }}">
-            </div>
-            <div class="mb-3">
-                <label for="description" class="form-label">Полное описание статьи</label>
-                <textarea id="description" name="description" class="form-control" rows="4" cols="50">{{ $post->description }}</textarea>
-            </div>
+            @include('posts.postForm')
             <div class="mb-3 form-check">
-                <input type="checkbox" class="form-check-input" id="published" name="published">
-                <label class="form-check-label" for="published" {{ $post->published ? 'checked' : '' }}>Опубликовано</label>
+                <input type="checkbox" class="form-check-input" id="published" name="published" value="1" {{ $post->published ? 'checked' : '' }}>
+                <label class="form-check-label" for="published" >Опубликовано</label>
             </div>
             <button type="submit" class="btn btn-primary" >Сохранить статью</button>
         </form>
