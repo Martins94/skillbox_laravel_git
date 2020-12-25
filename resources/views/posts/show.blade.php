@@ -8,6 +8,8 @@
         </h3>
         <p class="blog-post-meta">{{ $post->created_at->format('d.m.Y H:i:s') }}</p>
 
+        @include('posts.tags', ['tags' => $post->tags])
+
         <p>{{ $post->description }}</p>
         <p>{{ $post->published ? 'Опубликовано' : 'Не опубликовано'}}</p>
         <hr>

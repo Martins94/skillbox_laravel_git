@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Post;
+use App\Models\Tag;
 use App\Http\Requests\FormValidateRequest;
 use Illuminate\Validation\Rule;
 
@@ -11,7 +12,7 @@ class PostsController extends Controller
 
     public function index()
     {
-        $posts = Post::latest()->get();
+        $posts = Post::with('tags')->latest()->get();
 
         return view('welcome', compact('posts'));
     }
@@ -49,6 +50,23 @@ class PostsController extends Controller
         $data = $request->validated();
         isset($data['published'])?: $data['published'] = '0';
         $post->update($data);
+
+        $postTags = $post->tags->keyBy('name');
+
+        $tags = collect(explode(',', request('tags')))->keyBy(function ($item){ return $item;});
+
+        $tagsToAttach = $tags->diffKeys($postTags);
+        $tagsToDetach = $postTags->diffKeys($tags);
+
+        foreach ($tagsToAttach as $tag) {
+            $tag = Tag::firstOrCreate(['name' => $tag]);
+            $post->tags()->attach($tag);
+        }
+
+        foreach ($tagsToDetach as $tag) {
+            $post->tags()->detach($tag);
+        }
+
 
         return redirect(route('posts.index'));
     }

@@ -14,6 +14,10 @@
             @csrf
             @method('PATCH')
             @include('posts.postForm')
+            <div class="mb-3">
+                <label for="tag_name" class="form-label">Теги</label>
+                <input type="text" class="form-control" id="tag_name" name="tags" value="{{ old('tags', $post->tags->pluck('name')->implode(',')) }}">
+            </div>
             <div class="mb-3 form-check">
                 <input type="checkbox" class="form-check-input" id="published" name="published" value="1" {{ $post->published ? 'checked' : '' }}>
                 <label class="form-check-label" for="published" >Опубликовано</label>
