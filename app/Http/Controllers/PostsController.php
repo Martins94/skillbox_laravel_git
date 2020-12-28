@@ -2,10 +2,12 @@
 
 namespace App\Http\Controllers;
 
+use App\Notifications\PostCreated;
 use App\Models\Post;
 use App\Models\Tag;
 use App\Http\Requests\FormValidateRequest;
-use Illuminate\Validation\Rule;
+use App\Notifications\PostDeleted;
+use App\Notifications\PostUpdated;
 
 class PostsController extends Controller
 {
@@ -31,7 +33,11 @@ class PostsController extends Controller
         $data = $request->validated();
         $data['owner_id'] = auth()->id();
 
-        Post::create($data);
+        $post = Post::create($data);
+
+        flash('Статья успешно создана');
+
+        auth()->user()->notify(new PostCreated($post));
 
         return redirect(route('posts.index'));
     }
@@ -72,13 +78,18 @@ class PostsController extends Controller
             $post->tags()->detach($tag);
         }
 
+        flash('Статья успешно обновлена');
+
+        auth()->user()->notify(new PostUpdated($post));
 
         return redirect(route('posts.index'));
     }
 
     public function destroy(Post $post)
     {
+        auth()->user()->notify(new PostDeleted($post));
         $post->delete();
+        flash('Статья удалена', 'warning');
         return redirect(route('posts.index'));
     }
 }
