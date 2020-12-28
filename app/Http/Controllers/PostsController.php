@@ -9,7 +9,10 @@ use Illuminate\Validation\Rule;
 
 class PostsController extends Controller
 {
-
+    public function __construct()
+    {
+        $this->middleware('auth');
+    }
     public function index()
     {
         $posts = Post::with('tags')->latest()->get();
@@ -26,6 +29,7 @@ class PostsController extends Controller
     public function store(FormValidateRequest $request)
     {
         $data = $request->validated();
+        $data['owner_id'] = auth()->id();
 
         Post::create($data);
 
@@ -41,6 +45,7 @@ class PostsController extends Controller
 
     public function edit(Post $post)
     {
+        $this->authorize('update', $post);
         return view('posts.edit', compact('post'));
     }
 

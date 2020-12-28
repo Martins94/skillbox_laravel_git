@@ -23,7 +23,9 @@
 
     @yield('content')
 
+    @section('sidebar')
     @include('layout.sidebar')
+    @show
 
     </div><!-- /.row -->
 </main><!-- /.container -->

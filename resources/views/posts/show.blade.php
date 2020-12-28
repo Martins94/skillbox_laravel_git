@@ -14,6 +14,8 @@
         <p>{{ $post->published ? 'Опубликовано' : 'Не опубликовано'}}</p>
         <hr>
         <a href="{{ route('posts.index') }}">Ко всем статьям</a>
+        @can('update', $post)
         <a href="/posts/{{ $post->slug }}/edit">Редактировать</a>
+        @endcan
     </div><!-- /.blog-main -->
 @endsection
