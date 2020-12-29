@@ -14,7 +14,7 @@ class CreatePostsTable extends Migration
     public function up()
     {
         Schema::create('posts', function (Blueprint $table) {
-            $table->id();
+            $table->unsignedInteger('id')->autoIncrement();
             $table->string('slug', 255)->unique();
             $table->unsignedInteger('owner_id');
             $table->text('post_title');
@@ -22,8 +22,7 @@ class CreatePostsTable extends Migration
             $table->text('description');
             $table->boolean('published')->default(false);
             $table->timestamps();
-
-            //$table->foreign('owner_id')->references('id')->on('users')->onDelete('cascade');
+            $table->foreign('owner_id')->references('id')->on('users')->onDelete('cascade');
         });
     }
 
