@@ -92,4 +92,9 @@ class PostsController extends Controller
         flash('Статья удалена', 'warning');
         return redirect(route('posts.index'));
     }
+
+    public function about()
+    {
+        return view('about');
+    }
 }
