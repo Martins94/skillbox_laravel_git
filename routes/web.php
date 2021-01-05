@@ -5,8 +5,11 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\FeedbacksController;
 use App\Http\Controllers\PostsController;
 
+
 Route::get('/posts/tags/{tag}', [TagsController::class, 'index']);
 Route::resource('/posts', PostsController::class);
+
+Route::get('/', function () { return redirect('/posts'); });
 
 Route::get('/about', [PostsController::class, 'about'])->name('about');
 

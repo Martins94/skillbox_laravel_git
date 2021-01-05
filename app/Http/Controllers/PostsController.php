@@ -30,10 +30,15 @@ class PostsController extends Controller
 
     public function store(FormValidateRequest $request)
     {
+        //dd($request->get('tags'));
+
         $data = $request->validated();
         $data['owner_id'] = auth()->id();
 
         $post = Post::create($data);
+
+        $tag = Tag::firstOrCreate(['name' => $request->get('tags')]);
+        $post->tags()->attach($tag);
 
         flash('Статья успешно создана');
 
