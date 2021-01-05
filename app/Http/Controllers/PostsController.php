@@ -35,6 +35,9 @@ class PostsController extends Controller
 
         $post = Post::create($data);
 
+        $tag = Tag::firstOrCreate(['name' => $request->get('tags')]);
+        $post->tags()->attach($tag);
+
         flash('Статья успешно создана');
 
         auth()->user()->notify(new PostCreated($post));
