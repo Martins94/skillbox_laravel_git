@@ -1,6 +1,6 @@
 @extends('layout.master')
 
-@section('title', 'Главная')
+@section('title', 'Админ панель')
 
 @section('content')
             <div class="col-md-8 blog-main mt-5">
@@ -8,9 +8,7 @@
                     Опубликованные статьи
                 </h3>
                 @foreach($posts as $post)
-                    @if($post->published)
-                        @include('posts.item')
-                    @endif
+                    @include('admin.postItem')
                 @endforeach
 
             </div><!-- /.blog-main -->

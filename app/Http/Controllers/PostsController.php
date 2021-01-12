@@ -8,12 +8,14 @@ use App\Models\Tag;
 use App\Http\Requests\FormValidateRequest;
 use App\Notifications\PostDeleted;
 use App\Notifications\PostUpdated;
+use App\Services\Pushall;
 
 class PostsController extends Controller
 {
     public function __construct()
     {
         $this->middleware('auth');
+        $this->middleware('can:update, task')->only('adminIndex');
     }
     public function index()
     {
@@ -22,23 +24,32 @@ class PostsController extends Controller
         return view('welcome', compact('posts'));
     }
 
+    public function adminIndex()
+    {
+        $posts = Post::with('tags')->latest()->get();
+
+        return view('admin.postView', compact('posts'));
+    }
+
 
     public function create()
     {
         return view('posts.create');
     }
 
-    public function store(FormValidateRequest $request)
+    public function store(FormValidateRequest $request, Pushall $pushall)
     {
         $data = $request->validated();
         $data['owner_id'] = auth()->id();
 
         $post = Post::create($data);
 
-        $tag = Tag::firstOrCreate(['name' => $request->get('tags')]);
+        $tag = Tag::firstOrCreate(['name' => $request->get('tags') ?? '']);
         $post->tags()->attach($tag);
 
         flash('Статья успешно создана');
+
+        $pushall->send($data['post_title'], $data['short_descr']);
 
         auth()->user()->notify(new PostCreated($post));
 

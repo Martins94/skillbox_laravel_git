@@ -47,7 +47,12 @@
             <a class="p-2 text-muted" href="{{ route('about') }}">О нас</a>
             <a class="p-2 text-muted" href="{{ route('contacts') }}">Контакты</a>
             <a class="p-2 text-muted" href="{{ route('posts.create') }}">Создать статью</a>
-            <a class="p-2 text-muted" href="{{ route('admin.feedbacks') }}">Админ.Раздел</a>
+            <a class="p-2 text-muted" href="{{ route('admin.feedbacks') }}">Отзывы</a>
+            @isset($post)
+                @can('update', $post)
+                    <a class="p-2 text-muted" href="{{ route('admin') }}">Админ Панель</a>
+                @endcan
+            @endisset
         </nav>
     </div>
 
