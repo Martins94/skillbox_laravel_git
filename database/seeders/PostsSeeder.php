@@ -13,6 +13,10 @@ class PostsSeeder extends Seeder
      */
     public function run()
     {
-        \App\Models\Post::factory(5)->create();
+        foreach (\App\Models\Post::all() as $posts) {
+            $tags = \App\Models\Tag::inRandomOrder()->take(rand(1, 20))->pluck('id');
+            $posts->tags()->attach($tags);
+        }
+
     }
 }

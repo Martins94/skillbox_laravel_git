@@ -14,18 +14,10 @@ class UsersTableSeeder extends Seeder
      */
     public function run()
     {
-        \App\Models\User::factory(1)->create([
-            'name' => 'admin',
-            'email' => 'admin@gmail.com',
-        ]);
-
         \App\Models\User::factory()
             ->count(5)
             ->has(\App\Models\Post::factory()
-                ->count(5)
-                ->has(\App\Models\Tag::factory()), 'posts')
-                ->create()
+                ->count(5), 'posts')
             ->create();
-
     }
 }

@@ -28,7 +28,7 @@ class PostFactory extends Factory
             'short_descr' => $this->faker->sentence,
             'description' => $this->faker->text(150),
             'published' => $this->faker->boolean,
-            'owner_id' => 1 //User::find(rand(2, 5))
+            'owner_id' => User::factory()
         ];
     }
 }
