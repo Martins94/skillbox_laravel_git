@@ -30,8 +30,6 @@ class PostsController extends Controller
 
     public function store(FormValidateRequest $request)
     {
-        //dd($request->get('tags'));
-
         $data = $request->validated();
         $data['owner_id'] = auth()->id();
 
