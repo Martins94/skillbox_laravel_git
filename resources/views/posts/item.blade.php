@@ -4,6 +4,5 @@
 
     @include('posts.tags', ['tags' => $post->tags])
     <p>{{ $post->short_descr }}</p>
-    <p>{{ $post->published ? 'Опубликовано' : 'Не опубликовано'}}</p>
     <hr>
 </div>

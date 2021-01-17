@@ -8,9 +8,7 @@
                     Опубликованные статьи
                 </h3>
                 @foreach($posts as $post)
-                    @if($post->published)
-                        @include('posts.item')
-                    @endif
+                    @include('posts.item')
                 @endforeach
 
             </div><!-- /.blog-main -->

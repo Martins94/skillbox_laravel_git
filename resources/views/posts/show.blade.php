@@ -15,7 +15,7 @@
         <hr>
         <a href="{{ route('posts.index') }}">Ко всем статьям</a>
         @can('update', $post)
-        <a href="/posts/{{ $post->slug }}/edit">Редактировать</a>
+        <a href="{{ route('posts.edit', ['post' => $post->slug]) }}">Редактировать</a>
         @endcan
     </div><!-- /.blog-main -->
 @endsection

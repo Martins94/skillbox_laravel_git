@@ -3,6 +3,7 @@
 namespace App\Console\Commands;
 
 use App\Notifications\PostsCreatedWeekly;
+use Carbon\Carbon;
 use Illuminate\Console\Command;
 
 class NotifyCommand extends Command
@@ -39,9 +40,10 @@ class NotifyCommand extends Command
     public function handle()
     {
         $users = \App\Models\User::all();
+        $posts = \App\Models\Post::whereDate('created_at', '>', Carbon::today()->subDays(7))->get();
 
         foreach ($users as $user) {
-            $user->notify(new PostsCreatedWeekly());
+            $user->notify(new PostsCreatedWeekly($posts));
         }
 
         return 0;

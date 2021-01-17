@@ -5,7 +5,6 @@
     @include('posts.tags', ['tags' => $post->tags])
     <h4>Описание</h4>
     <p>{{ $post->description }}</p>
-    <p>{{ $post->published ? 'Опубликовано' : 'Не опубликовано'}}</p>
-    <a href="/posts/{{ $post->slug }}/edit">Редактировать</a>
+    <a href="{{ route('posts.edit', ['post' => $post->slug]) }}">Редактировать</a>
     <hr>
 </div>

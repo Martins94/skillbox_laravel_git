@@ -19,7 +19,7 @@ class PostsController extends Controller
     }
     public function index()
     {
-        $posts = Post::with('tags')->latest()->get();
+        $posts = Post::with('tags')->where('published', true)->latest()->get();
 
         return view('welcome', compact('posts'));
     }

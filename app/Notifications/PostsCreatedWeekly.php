@@ -2,7 +2,6 @@
 
 namespace App\Notifications;
 
-use Carbon\Carbon;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;
@@ -12,14 +11,11 @@ class PostsCreatedWeekly extends Notification
 {
     use Queueable;
 
-    /**
-     * Create a new notification instance.
-     *
-     * @return void
-     */
-    public function __construct()
+    protected $posts;
+
+    public function __construct($posts)
     {
-        //
+        $this->posts = $posts;
     }
 
     /**
@@ -41,12 +37,10 @@ class PostsCreatedWeekly extends Notification
      */
     public function toMail($notifiable)
     {
-        $posts = \App\Models\Post::whereDate('created_at', '>', Carbon::now()->subDays(7))->get();
-
         $mailMessage = new MailMessage();
         $mailMessage->subject('Новые статьи за прошедшую неделю');
 
-        foreach ($posts as $post){
+        foreach ($this->posts as $post){
             $mailMessage
                 ->line('Статья ' . $post->post_title)
                 ->action('Посмотреть статью', url('/posts/'. $post->slug));
