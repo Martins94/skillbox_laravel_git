@@ -44,8 +44,12 @@ class PostsController extends Controller
 
         $post = Post::create($data);
 
-        $tag = Tag::firstOrCreate(['name' => $request->get('tags') ?? '']);
-        $post->tags()->attach($tag);
+        $tagsToAttach = collect(explode(',', request('tags')))->keyBy(function ($item){ return $item;});
+
+        foreach ($tagsToAttach as $tag) {
+            $tag = Tag::firstOrCreate(['name' => $tag]);
+            $post->tags()->attach($tag);
+        }
 
         flash('Статья успешно создана');
 
